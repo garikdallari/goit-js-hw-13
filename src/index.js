@@ -32,7 +32,9 @@ async function onSearch(e) {
         appendImageMarkup(hits);
     
         if (hits.length === 0) {
-        Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
+        refs.loadMoreBtn.classList.add('hidden')
+            Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
+            return;
         };
         
         if (hits.length > hits.totalHits) {
