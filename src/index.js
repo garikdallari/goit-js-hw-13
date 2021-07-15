@@ -3,6 +3,7 @@ import ImageApiService from './js/image-service';
 import imageCardTpl from './templates/image-card.hbs';
 import Notiflix from "notiflix";
 
+
 const imageApiService = new ImageApiService()
 
 const refs = {
