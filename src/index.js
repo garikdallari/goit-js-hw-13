@@ -2,8 +2,7 @@ import './js/image-service';
 import ImageApiService from './js/image-service';
 import imageCardTpl from './templates/image-card.hbs';
 import Notiflix from "notiflix";
-
-
+import './js/lightbox';
 const imageApiService = new ImageApiService()
 
 
@@ -57,8 +56,9 @@ async function onLoadMore() {
     
     try {
         const res = await imageApiService.fetchImages();
-        appendImageMarkup(res.hits)
-        getTotalImgCount(res)
+        appendImageMarkup(res.hits);
+        getTotalImgCount(res);
+        gallery.refresh();
       
     } catch (error) {
         console.log(error);
@@ -82,4 +82,3 @@ function getTotalImgCount(res) {
         Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
     }
 };
-
