@@ -6,11 +6,13 @@ import Notiflix from "notiflix";
 
 const imageApiService = new ImageApiService()
 
+
 const refs = {
     searchForm: document.querySelector('.search-form'),
     imageContainer: document.querySelector('.gallery'),
     loadMoreBtn: document.querySelector('.load-more')
-}
+};
+
 
 refs.searchForm.addEventListener('submit', onSearch);
 refs.loadMoreBtn.addEventListener('click', onLoadMore);
@@ -30,6 +32,8 @@ async function onSearch(e) {
 
     try {
         const res = await imageApiService.fetchImages()
+    
+
         appendImageMarkup(res.hits);
 
        Notiflix.Notify.success(`Hooray! We found ${res.totalHits} images.`);
@@ -40,10 +44,9 @@ async function onSearch(e) {
             return;
         };
         
-        if (res.hits.length > res.totalHits) {
-         Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
-        };
         refs.loadMoreBtn.classList.remove('hidden');
+     
+        
 
     } catch (error) {
         console.log(error);
@@ -55,6 +58,7 @@ async function onLoadMore() {
     try {
         const res = await imageApiService.fetchImages();
         appendImageMarkup(res.hits)
+        getTotalImgCount(res)
       
     } catch (error) {
         console.log(error);
@@ -62,10 +66,20 @@ async function onLoadMore() {
 }
 
 
+
 function appendImageMarkup(data) {
     refs.imageContainer.insertAdjacentHTML('beforeend', imageCardTpl(data))
-}
+};
 
 function clearImgContainer() {
     refs.imageContainer.innerHTML = '';
-}
+};
+
+function getTotalImgCount(res) {
+    
+    if (refs.imageContainer.querySelectorAll('.photo-card').length > res.totalHits) {
+        refs.loadMoreBtn.classList.add('hidden');
+        Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
+    }
+};
+
