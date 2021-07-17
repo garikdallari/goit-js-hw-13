@@ -56,9 +56,16 @@ async function onLoadMore() {
     
     try {
         const res = await imageApiService.fetchImages();
-        appendImageMarkup(res.hits);
-        getTotalImgCount(res);
-        gallery.refresh();
+        // appendImageMarkup(res.hits);
+        // getTotalImgCount(res);
+        // gallery.refresh();
+     
+        if (refs.imageContainer.querySelectorAll('.photo-card').length === res.totalHits) {
+            getTotalImgCount()
+        } else {
+
+            appendImageMarkup(res.hits);
+        }
       
     } catch (error) {
         console.log(error);
@@ -75,10 +82,11 @@ function clearImgContainer() {
     refs.imageContainer.innerHTML = '';
 };
 
-function getTotalImgCount(res) {
+function getTotalImgCount() {
     
-    if (refs.imageContainer.querySelectorAll('.photo-card').length > res.totalHits) {
-        refs.loadMoreBtn.classList.add('hidden');
-        Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
-    }
+  refs.loadMoreBtn.style.display = 'none'
+     
+Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
+    
 };
+
